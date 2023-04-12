@@ -6,7 +6,6 @@ export class Phonebook extends Component {
     inputValues: [],
   }
   
-  handleChange
 
   handleSubmit = (event) => {
     event.preventDefault()
