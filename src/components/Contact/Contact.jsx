@@ -1,9 +1,9 @@
-export const Contact = ({name, tel}) => {
-    
+export const Contact = ({ name, number }) => {
+
     return (
         <li className="contact__item">
-            <span>{name}: {tel}</span>
+            <span>{name}: {number}</span>
         </li>
-        
+
     )
 }
