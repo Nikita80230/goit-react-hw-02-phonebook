@@ -15,7 +15,7 @@ export class ContactsList extends Component {
             contactsFromPhonebook: event.currentTarget.value,
         })
 
-        this.props.searchNameInPhonebook(this.state.contactsFromPhonebook)
+        this.props.searchNameInPhonebook(event.currentTarget.value)
 
     }
 

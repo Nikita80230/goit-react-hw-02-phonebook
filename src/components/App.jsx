@@ -4,7 +4,7 @@ import { Phonebook } from "./Phonebook/Phonebook";
 import { ContactsList } from "./ContactsList/ContactsList";
 import { Contact } from "./Contact/Contact";
 
-import { nanoid } from 'nanoid'
+// import { nanoid } from 'nanoid'
 
 
 
@@ -22,9 +22,18 @@ export class App extends Component {
 
   addNewContact = (data) => {
     // console.log(data)
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, data]
-    }))
+    const namesToCheck = this.state.contacts.map(({ name }) => name.toLocaleLowerCase())
+
+
+    if (namesToCheck.includes(data.name.toLowerCase())) {
+
+      alert(`${data.name} is already in contacts`)
+    } else {
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, data]
+      }))
+    }
+
   }
 
   searchNameInPhonebook = (nameToFind) => {
@@ -32,6 +41,10 @@ export class App extends Component {
       name: nameToFind
     })
 
+  }
+
+  removeContact = (id) => {
+    this.setState({ contacts: this.state.contacts.filter((contact) => (contact.id !== id)) })
   }
 
   render() {
@@ -44,14 +57,14 @@ export class App extends Component {
         >
           {
             this.state.name ? this.state.contacts
-              .filter(({ name }) => name.includes(this.state.name))
-              .map(({ name, number }) => {
+              .filter(({ name }) => name.toLowerCase().includes(this.state.name.toLowerCase()))
+              .map(({ name, number, id }) => {
                 return (
-                  <Contact name={name} number={number} key={nanoid()} />
+                  <Contact removeContact={this.removeContact} name={name} number={number} key={id} id={id} />
                 )
-              }) : this.state.contacts.map(({ name, number }) => {
+              }) : this.state.contacts.map(({ name, number, id }) => {
                 return (
-                  <Contact name={name} number={number} key={nanoid()} />
+                  <Contact removeContact={this.removeContact} name={name} number={number} key={id} id={id} />
                 )
               })
 
