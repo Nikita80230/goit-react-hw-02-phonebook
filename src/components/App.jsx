@@ -1,15 +1,11 @@
-
-import { Component } from "react";
-import { Phonebook } from "./Phonebook/Phonebook";
-import { ContactsList } from "./ContactsList/ContactsList";
-import { Contact } from "./Contact/Contact";
+import { Component } from 'react';
+import { Phonebook } from './Phonebook/Phonebook';
+import { ContactsList } from './ContactsList/ContactsList';
+import { Contact } from './Contact/Contact';
 
 // import { nanoid } from 'nanoid'
 
-
-
 export class App extends Component {
-
   state = {
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -17,76 +13,69 @@ export class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    name: ''
-  }
+    searchTerm: '',
+  };
 
-  addNewContact = (data) => {
-    // console.log(data)
-    const namesToCheck = this.state.contacts.map(({ name }) => name.toLocaleLowerCase())
+  addNewContact = data => {
 
-
-    if (namesToCheck.includes(data.name.toLowerCase())) {
-
-      alert(`${data.name} is already in contacts`)
+    if (this.state.contacts.some(contact => contact.name === data.name)) {
+      alert(`${data.name} is already in contacts`);
     } else {
       this.setState(prevState => ({
-        contacts: [...prevState.contacts, data]
-      }))
+        contacts: [...prevState.contacts, data],
+      }));
     }
+  };
 
-  }
-
-  searchNameInPhonebook = (nameToFind) => {
+  searchNameInPhonebook = nameToFind => {
     this.setState({
-      name: nameToFind
-    })
+      searchTerm: nameToFind,
+    });
+  };
 
-  }
-
-  removeContact = (id) => {
-    this.setState({ contacts: this.state.contacts.filter((contact) => (contact.id !== id)) })
-  }
+  removeContact = id => {
+    this.setState({
+      contacts: this.state.contacts.filter(contact => contact.id !== id),
+    });
+  };
 
   render() {
-    // console.log(this.state)
+    const filteredContacts = this.state.contacts.filter(({ name }) =>
+      name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+    );
+
     return (
       <div>
         <Phonebook addNewContact={this.addNewContact} />
         <ContactsList
-          searchNameInPhonebook={this.searchNameInPhonebook} contactsArray={this.state.contacts}
+          searchNameInPhonebook={this.searchNameInPhonebook}
+          contactsArray={this.state.contacts}
         >
-          {
-            this.state.name ? this.state.contacts
-              .filter(({ name }) => name.toLowerCase().includes(this.state.name.toLowerCase()))
-              .map(({ name, number, id }) => {
-                return (
-                  <Contact removeContact={this.removeContact} name={name} number={number} key={id} id={id} />
-                )
-              }) : this.state.contacts.map(({ name, number, id }) => {
-                return (
-                  <Contact removeContact={this.removeContact} name={name} number={number} key={id} id={id} />
-                )
-              })
-
-            // }
-            // this.state.contacts.map(({ name, tel }) => {
-            //   return (
-            //     <Contact name={name} tel={tel} key={nanoid()}/>
-            //   )
-            // })
-          }
+          {this.state.searchTerm
+            ? filteredContacts.map(({ name, number, id }) => {
+              return (
+                <Contact
+                  removeContact={this.removeContact}
+                  name={name}
+                  number={number}
+                  key={id}
+                  id={id}
+                />
+              );
+            })
+            : this.state.contacts.map(({ name, number, id }) => {
+              return (
+                <Contact
+                  removeContact={this.removeContact}
+                  name={name}
+                  number={number}
+                  key={id}
+                  id={id}
+                />
+              );
+            })}
         </ContactsList>
       </div>
     );
   }
-};
-  // this.state.contacts.map(({ name, tel }) => {
-          // return (
-          //   <Contact name={name} tel={tel} key={nanoid()}/>
-          // )
-          // })
-        // if (this.state.name){
-        //     this.state.contacts.filter(({ name }) => {
-        //       name.includes(this.state.name)
-        //     })
-        //     }
+}
