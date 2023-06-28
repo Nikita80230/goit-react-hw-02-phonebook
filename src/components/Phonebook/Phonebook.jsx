@@ -5,7 +5,6 @@ import { nanoid } from 'nanoid';
 
 export class Phonebook extends Component {
   state = {
-
     name: '',
     number: '',
     id: '',
@@ -65,4 +64,3 @@ export class Phonebook extends Component {
     );
   }
 }
-
