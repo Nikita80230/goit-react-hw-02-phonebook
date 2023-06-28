@@ -51,29 +51,17 @@ export class App extends Component {
           searchNameInPhonebook={this.searchNameInPhonebook}
           contactsArray={this.state.contacts}
         >
-          {this.state.searchTerm
-            ? filteredContacts.map(({ name, number, id }) => {
-              return (
-                <Contact
-                  removeContact={this.removeContact}
-                  name={name}
-                  number={number}
-                  key={id}
-                  id={id}
-                />
-              );
-            })
-            : this.state.contacts.map(({ name, number, id }) => {
-              return (
-                <Contact
-                  removeContact={this.removeContact}
-                  name={name}
-                  number={number}
-                  key={id}
-                  id={id}
-                />
-              );
-            })}
+          {filteredContacts.map(({ name, number, id }) => {
+            return (
+              <Contact
+                removeContact={this.removeContact}
+                name={name}
+                number={number}
+                key={id}
+                id={id}
+              />
+            );
+          })}
         </ContactsList>
       </div>
     );
