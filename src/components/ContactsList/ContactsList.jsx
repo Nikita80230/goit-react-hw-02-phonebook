@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Filter } from 'components/ContactsList/Filter/Filter';
+import { Contact } from 'components/Contact/Contact';
 
 export class ContactsList extends Component {
     render() {
@@ -7,7 +8,19 @@ export class ContactsList extends Component {
             <>
                 <h2>Contacts</h2>
                 <Filter searchNameInPhonebook={this.props.searchNameInPhonebook} />
-                <ul className="contacts__list">{this.props.children}</ul>
+                <ul>
+                    {this.props.filteredContacts.map(({ name, number, id }) => {
+                        return (
+                            <Contact
+                                removeContact={this.props.removeContact}
+                                name={name}
+                                number={number}
+                                key={id}
+                                id={id}
+                            />
+                        );
+                    })}
+                </ul>
             </>
         );
     }

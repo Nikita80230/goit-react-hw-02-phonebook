@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Phonebook } from './Phonebook/Phonebook';
 import { ContactsList } from './ContactsList/ContactsList';
-import { Contact } from './Contact/Contact';
+// import { Contact } from './Contact/Contact';
 
 // import { nanoid } from 'nanoid'
 
@@ -50,19 +50,9 @@ export class App extends Component {
         <ContactsList
           searchNameInPhonebook={this.searchNameInPhonebook}
           contactsArray={this.state.contacts}
-        >
-          {filteredContacts.map(({ name, number, id }) => {
-            return (
-              <Contact
-                removeContact={this.removeContact}
-                name={name}
-                number={number}
-                key={id}
-                id={id}
-              />
-            );
-          })}
-        </ContactsList>
+          filteredContacts={filteredContacts}
+          removeContact={this.removeContact}
+        />
       </div>
     );
   }
